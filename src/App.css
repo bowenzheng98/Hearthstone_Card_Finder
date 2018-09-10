@@ -7,6 +7,7 @@
   margin-top: 30px;
   margin-right: 400px;
   margin-left: 400px;
+  margin-bottom: 50px;
   height: 40px;
   padding: 20px;
   padding-left: 85px;
@@ -25,6 +26,16 @@
 }
 .App-intro {
   font-size: large;
+}
+.Image-card{
+  height: 430px;
+  margin-right: 400px;
+  margin-left: 400px;
+}
+.Card-image{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .Input{
   text-align: center;

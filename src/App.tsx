@@ -12,13 +12,13 @@ class App extends React.Component<{},IHearthstoneCard> {
   constructor(props:any){
     super(props);
     this.state = {
-      image: "",
+      image: "https://d1u5p3l4wpay3k.cloudfront.net/hearthstone_gamepedia/c/c8/Stonetusk_Boar%2876%29.png?version=feaca8125122935600ae22c550e464f5c",
       name: "",
       result: ""
     }
   }
 
-  public getCard(cardName:string){
+  public getCard(cardName:any){
     fetch('https://omgvamp-hearthstone-v1.p.mashape.com/cards/' + cardName)
     .then(results => {
       return results.json;
@@ -40,7 +40,9 @@ class App extends React.Component<{},IHearthstoneCard> {
           </Card>
         </div>
         <div>
-          <Card/>
+          <Card  className="Image-card">
+            <img className="Card-image" src={this.state.image}/>
+          </Card>
         </div>
       </body>
     );
