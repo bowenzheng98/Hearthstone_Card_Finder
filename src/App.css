@@ -7,10 +7,11 @@
   margin-top: 30px;
   margin-right: 400px;
   margin-left: 400px;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
   height: 40px;
   padding: 20px;
   padding-left: 85px;
+  max-width: 450px;
 }
 .Search-button{
   margin-left: 0px;
@@ -27,17 +28,12 @@
 .App-intro {
   font-size: large;
 }
-.Image-card{
-  height: 430px;
-  margin-right: 400px;
-  margin-left: 400px;
-}
-.Card-image{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
 .Input{
   text-align: center;
   margin-right: 50px;
+}
+.Error-card{
+  height: 50px;
+  min-width: 450px;
+  text-align: center;
 }

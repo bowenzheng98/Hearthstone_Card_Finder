@@ -1,46 +1,92 @@
-import { Button, Card, Input } from '@material-ui/core';
+import { Button, Card, CardMedia, CircularProgress, Grid, Input } from '@material-ui/core';
 import * as React from 'react';
 import './App.css';
 
-interface IHearthstoneCard{
-  image: string;
+interface IHearthstoneCard {
+  cardId: any;
+  display: any;
+  error: any;
+  image: any[];
+  loading: any;
   name: string;
   result: any;
+  search: string;
 }
 
-class App extends React.Component<{},IHearthstoneCard> {
-  constructor(props:any){
+class App extends React.Component<{}, IHearthstoneCard> {
+  constructor(props: any) {
     super(props);
     this.state = {
-      image: "http://media.services.zam.com/v1/media/byName/hs/cards/enus/CS2_171.png",
+      cardId: "",
+      display: false,
+      error: false,
+      image: [],
+      loading: false,
       name: "",
-      result: ""
-    };  
-    this.setName = this.setName.bind(this);
-    this.getCard = this.getCard.bind(this);
+      result: "",
+      search: ""
+    };
   }
 
   public getCard = () => {
-    fetch('https://omgvamp-hearthstone-v1.p.mashape.com/cards/' + this.state.name, {
+    if(this.state.loading){
+      return;
+    }
+    this.setState({ loading: true });
+    this.setState({ error: false });
+    this.setState({ search: this.state.name});
+    fetch('https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/' + this.state.name, {
       headers: {
-        'Accept' : 'application/json',
-        'X-Mashape-Key' : 'umhsTza6z7mshV6ax0uG7zY5uY9dp180Mlhjsnh1ZK83NPtgzA'
+        'Accept': 'application/json',
+        'X-Mashape-Key': 'umhsTza6z7mshV6ax0uG7zY5uY9dp180Mlhjsnh1ZK83NPtgzA'
       }
-    }).then((result) => {
-      return result.json();
-    }).then((data) => {
-      // tslint:disable-next-line:no-console
-      console.log(data[0].img);
-      const imageData = data[0].img;
-      this.setState({image: imageData});
+    }).then((response: any) => {
+      if (!response.ok) {
+        this.setState({ result: response.statusText });
+        this.setState({ display: false });
+        this.setState({ image: [] });
+        this.setState({ loading: false });
+        this.setState({ error: true });
+      } else {
+        response.json().then((data: any) => {
+          const images = [];
+          for (const key in data) {
+            if (data[key].collectible !== false && data[key].collectible != null) {
+              images.push(data[key].img);
+            }
+          }
+          this.setState({ image: images });
+          this.setState({ display: true });
+          this.setState({ loading: false })
+        })
+      }
     })
   }
 
-  public setName(e: React.ChangeEvent<HTMLInputElement>){
-    this.setState({name: e.target.value})
+  public setName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ name: e.target.value })
   }
 
   public render() {
+    let cards = null;
+    if (this.state.display) {
+      cards = this.state.image.map((image, i) => {
+        return (
+          <CardMedia key={i}>
+            <img src={image} />
+          </CardMedia>
+        )
+      })
+    } else if (!this.state.display && this.state.error) {
+      cards = (
+        <Card className="Error-card">
+          <div>
+            <p>No card matches {this.state.search} </p>
+          </div>
+        </Card>
+      )
+    }
+    const display = this.state.loading ? <CircularProgress /> : cards
     return (
       <body>
         <div className="App">
@@ -49,18 +95,19 @@ class App extends React.Component<{},IHearthstoneCard> {
           </header>
         </div>
         <div>
-          <Card className="Main-card">  
-            <Input className="Input" placeholder="Card name" value={this.state.name} onChange={this.setName}/>
-            <Button className="Search-button" variant="contained" onClick={this.getCard} >Search</Button>
+          <Card className="Main-card">
+            <Input className="Input" placeholder="Card (e.g. 'Ysera')" value={this.state.name} onChange={this.setName} />
+            <Button className="Search-button" variant="contained" onClick={this.getCard}>Search</Button>
           </Card>
         </div>
         <div>
-          <Card  className="Image-card">
-            <img className="Card-image" src={this.state.image}/>
-          </Card>
+          <Grid container={true} justify="center">
+            {display}
+          </Grid>
         </div>
       </body>
     );
   }
 }
 export default App;
+
