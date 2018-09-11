@@ -5,13 +5,14 @@
 }
 .Main-card{
   margin-top: 30px;
-  margin-right: 400px;
-  margin-left: 400px;
+  margin-right: auto;
+  margin-left: auto;
   margin-bottom: 25px;
   height: 40px;
   padding: 20px;
   padding-left: 85px;
-  max-width: 450px;
+  width: 350px;
+  min-width: 350px;
 }
 .Search-button{
   margin-left: 0px;
@@ -34,6 +35,16 @@
 }
 .Error-card{
   height: 50px;
-  min-width: 450px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 455px;
+  min-width: 455px;
   text-align: center;
+}
+.HS-card{
+  width: 307px;
+}
+.HS-cardmedia{
+  justify-content: center;
+  align-items: center;
 }

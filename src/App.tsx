@@ -72,8 +72,8 @@ class App extends React.Component<{}, IHearthstoneCard> {
     if (this.state.display) {
       cards = this.state.image.map((image, i) => {
         return (
-          <CardMedia key={i}>
-            <img src={image} />
+          <CardMedia key={i} className="HS-cardmedia">
+            <img src={image} className="HS-card"/>
           </CardMedia>
         )
       })
